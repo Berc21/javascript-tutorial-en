@@ -1,10 +1,10 @@
 
 
-# Introduction: callbacks
+# Giriş: callbacks
 
-Many actions in JavaScript are *asynchronous*.
+JavaScript'teki birçok eylem *senkronize değildir *.
 
-For instance, take a look at the function `loadScript(src)`:
+Örneğin, `loadScript (src)` işlevine bir göz atalım:
 
 ```js
 function loadScript(src) {
@@ -14,40 +14,40 @@ function loadScript(src) {
 }
 ```
 
-The purpose of the function is to load a new script. When it adds the `<script src="…">` to the document, the browser loads and executes it.
+Fonksiyonun amacı yeni bir komut dosyası yüklemektir. Belgeye `<script src ="… ">` eklendiğinde, tarayıcı onu yükler ve çalıştırır.
 
-We can use it like this:
+Bunu şöyle kullanabiliriz:
 
 ```js
-// loads and executes the script
+// komut dosyasını yükler ve çalıştırır
 loadScript('/my/script.js');
 ```
 
-The function is called "asynchronously", because the action (script loading) finishes not now, but later.
+İşlev "eşzamansız" olarak adlandırılır, çünkü eylem (komut dosyası yükleme) şimdi değil, daha sonra biter.
 
-The call initiates the script loading, then the execution continues. While the script is loading, the code below may finish executing, and if the loading takes time, other scripts may run meanwhile too.
+Çağrı, komut dosyası yüklemesini başlatır, daha sonra yürütme devam eder. Komut dosyası yüklenirken, aşağıdaki kod yürütmeyi bitirebilir ve yükleme zaman alırsa, diğer komut dosyaları da bu arada çalışabilir.
 
 ```js
 loadScript('/my/script.js');
-// the code below loadScript doesn't wait for the script loading to finish
+//loadScript'in altındaki kod, komut dosyasının yüklenmesi için beklemez
 // ...
 ```
 
-Now let's say we want to use the new script when it loads. It probably declares new functions, so we'd like to run them.
+Şimdi yeni komut dosyasını yüklendiğinde kullanmak istediğimizi varsayalım. Muhtemelen yeni fonksiyonlar tanımlar, bu yüzden onları çalıştırmak isteriz.
 
-But if we do that immediately after the `loadScript(…)` call, that wouldn't work:
+Ama eğer bunu loadScript (…) `den hemen sonra yaparsak, bu işe yaramaz:
 
 ```js
-loadScript('/my/script.js'); // the script has "function newFunction() {…}"
+loadScript('/my/script.js'); //komut dosyası "newFunction () {…}" işlevine sahip
 
 *!*
-newFunction(); // no such function!
+newFunction(); // böyle bir fonsiyon yok!
 */!*
 ```
 
-Naturally, the browser probably didn't have time to load the script. So the immediate call to the new function fails. As of now, `loadScript` function doesn't provide a way to track the load completion. The script loads and eventually runs, that's all. But we'd like to know when it happens, to use new functions and variables from that script.
+Doğal olarak, tarayıcı muhtemelen komut dosyasını yüklemek için zamana sahip değildi. Böylece yeni fonksiyona hemen çağrı başarısız oluyor. Şu an itibariyle, `loadScript` işlevi, yükün tamamlanmasını izlemek için bir yol sağlamaz. Komut yüklenir ve sonunda çalışır, hepsi bu. Ancak, ne zaman olacağını, bu komut dosyasındaki yeni işlevleri ve değişkenleri kullanmak isteriz.
 
-Let's add a `callback` function as a second argument to `loadScript` that should execute when the script loads:
+Komut dosyası yüklendiğinde çalıştırılması gereken `loadScript` için ikinci bir argüman olarak `callback` fonksiyonunu ekleyelim:
 
 ```js
 function loadScript(src, *!*callback*/!*) {
@@ -61,8 +61,7 @@ function loadScript(src, *!*callback*/!*) {
   document.head.append(script);
 }
 ```
-
-Now if we want to call new functions from the script, we should write that in the callback:
+Şimdi senaryodan yeni fonksiyonlar çağırmak istiyorsak, bunu callback'e yazmalıyız:
 
 ```js
 loadScript('/my/script.js', function() {
@@ -72,9 +71,9 @@ loadScript('/my/script.js', function() {
 });
 ```
 
-That's the idea: the second argument is a function (usually anonymous) that runs when the action is completed.
+Buradaki mantık: ikinci argüman, eylem tamamlandığında çalışan bir işlev (genellikle anonim).
 
-Here's a runnable example with a real script:
+İşte gerçek bir betik (script) ile uygulanabilir bir örnek:
 
 ```js run
 function loadScript(src, callback) {
@@ -87,38 +86,37 @@ function loadScript(src, callback) {
 *!*
 loadScript('https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.2.0/lodash.js', script => {
   alert(`Cool, the ${script.src} is loaded`);
-  alert( _ ); // function declared in the loaded script
+  alert( _ );// Yüklenen komut dosyasında bildirilen funksiyon
 });
 */!*
 ```
 
-That's called a "callback-based" style of asynchronous programming. A function that does something asynchronously should provide a `callback` argument where we put the function to run after it's complete.
+Bu, "callback tabanlı" bir eşzamansız programlama stili olarak adlandırılır. Eşzamansız bir şey yapan bir fonksiyon, işlevi tamamlandıktan sonra çalışmaya koyduğumuz bir `callback' argümanı sağlamalıdır.
 
-Here we did it in `loadScript`, but of course it's a general approach.
+İşte bunu loadScript'de yaptık, ama elbette bu genel bir yaklaşım.
 
-## Callback in callback
+## Callback içinde callback
+Ardışık olarak iki komut dosyası nasıl yüklenir: Birincisi, sonra da ikincisi?
 
-How to load two scripts sequentially: the first one, and then the second one after it?
-
-The natural solution would be to put the second `loadScript` call inside the callback, like this:
+Beklenen çözüm, ikinci `loadScript` çağrısını geri arama içine koymak olabilir:
 
 ```js
 loadScript('/my/script.js', function(script) {
 
-  alert(`Cool, the ${script.src} is loaded, let's load one more`);
+  alert(`Harika,  ${script.src} yüklendi, hadi bir tane daha yükleyelim.`);
 
 *!*
   loadScript('/my/script2.js', function(script) {
-    alert(`Cool, the second script is loaded`);
+    alert(`Harika, ikinci komut satırı da yüklendi!`);
   });
 */!*
 
 });
 ```
 
-After the outer `loadScript` is complete, the callback initiates the inner one.
+Dış `loadScript` tamamlandıktan sonra, iç callback olanı başlatır.
 
-What if we want one more script...?
+Ya bir tane daha senaryo istiyorsak ...?
 
 ```js
 loadScript('/my/script.js', function(script) {
@@ -136,13 +134,13 @@ loadScript('/my/script.js', function(script) {
 });
 ```
 
-So, every new action is inside a callback. That's fine for few actions, but not good for many, so we'll see other variants soon.
+Yani, her yeni eylem bir callbak içinde olması. Bazı funksiyonlar için iyi, ancak pek çoğu için iyi değildir, bu yüzden yakında diğer varyasyonları göreceğiz.
 
-## Handling errors
+## Hatalarla başa çıkma
 
-In examples above we didn't consider errors. What if the script loading fails? Our callback should be able to react on that.
+Yukarıdaki örneklerde hataları dikkate almadık. Komut dosyası yükleme başarısız olursa ne olur? Callback buna tepki gösterebilmelidir.
 
-Here's an improved version of `loadScript` that tracks loading errors:
+İşte yükleme hatalarını izleyen geliştirilmiş bir "loadScript" sürümü:
 
 ```js run
 function loadScript(src, callback) {
@@ -158,33 +156,33 @@ function loadScript(src, callback) {
 }
 ```
 
-It calls `callback(null, script)` for successful load and `callback(error)` otherwise.
+Başarılı yükleme için `callback(null, script)` çağırır.  Aksi durumda `callback(error)`.
 
-The usage:
+
+Kullanımı
 ```js
 loadScript('/my/script.js', function(error, script) {
   if (error) {
-    // handle error
+    // hatayı hallet
   } else {
-    // script loaded successfully
+    // komut dosyası başarıyla yüklendi
   }
 });
 ```
 
-Once again, the recipe that we used for `loadScript` is actually quite common. It's called the "error-first callback" style.
+Bir kez daha, "loadScript" için kullandığımız tarif aslında oldukça yaygın. Buna "error-first callback" stili denir.
 
-The convention is:
-1. The first argument of `callback` is reserved for an error if it occurs. Then `callback(err)` is called.
-2. The second argument (and the next ones if needed) are for the successful result. Then `callback(null, result1, result2…)` is called.
+Yaygın kullanım şekli:
+1. 'Callback' ilk argümanı, oluştururken hata için ilk argüman ayrılmıştır. Sonra `callback(err)` çağrılır.
+2. İkinci argüman (ve gerekirse sonrakiler) başarılı sonuç içindir. Sonra `callback(null, result1, result2…)` çağrılır.
 
-So the single `callback` function is used both for reporting errors and passing back results.
+Dolayısıyla, tek `callback` fonksiyonu hem hataları bildirmek hem de sonuçları geri almak için kullanılır.
 
-## Pyramid of doom
+## Kıyamet Piramidi
 
-From the first look it's a viable way of asynchronous coding. And indeed it is. For one or maybe two nested calls it looks fine.
+İlk bakışta, eşzamansız kodlamanın uygulanabilir bir yolu. Ve gerçekten bir veya iki iç içe callback için iyi görünüyor.
 
-But for multiple asynchronous actions that follow one after another we'll have code like this:
-
+Ancak birbiri ardına gelen çoklu eşzamansız eylemler için aşağıdaki gibi bir kodumuz olacak:
 ```js
 loadScript('1.js', function(error, script) {
 
@@ -202,7 +200,7 @@ loadScript('1.js', function(error, script) {
             handleError(error);
           } else {
   *!*
-            // ...continue after all scripts are loaded (*)
+            // ...tüm komut dosyaları yüklendikten sonra devam et (*)
   */!*
           }
         });
@@ -213,22 +211,22 @@ loadScript('1.js', function(error, script) {
 });
 ```
 
-In the code above:
-1. We load `1.js`, then if there's no error.
-2. We load `2.js`, then if there's no error.
-3. We load `3.js`, then if there's no error -- do something else `(*)`.
+Yukarıdaki kodda:
+1. `1.js` yükleriz, sonra hata yoksa.
+2. `2.js` yükleriz, sonra hata yoksa.
+3. `3.js` yükleriz, sonra hata yoksa. -- başka bir şey yap `(*)`.
 
-As calls become more nested, the code becomes deeper and increasingly more difficult to manage, especially if we have a real code instead of `...`, that may include more loops, conditional statements and so on.
+Calback'ler daha iç içe geçtikçe, kod daha da derinleşir ve yönetilmesi gittikçe daha zor hale gelir, özellikle '...' yerine gerçek bir koda sahip olursak, daha fazla döngü, koşullu ifade vb. Içerebilir.
 
-That's sometimes called "callback hell" or "pyramid of doom".
+Bu bazen "callback cehennemi" ya da "kıyamet piramidi" denir.
 
 ![](callback-hell.png)
 
-The "pyramid" of nested calls grows to the right with every asynchronous action. Soon it spirals out of control.
+İç içe geçmiş calback'ler "piramidi" her eşzamansız eylemle sağa doğru büyür. Bir süre sonra kontrolden çıkar.
 
-So this way of coding isn't very good.
+Yani bu şekilde kodlama çok iyi olduğu söylenemez.
 
-We can try to alleviate the problem by making every action a standalone function, like this:
+Her eylemi bağımsız bir işleve dönüştürerek sorunu hafifletmeye çalışabiliriz:
 
 ```js
 loadScript('1.js', step1);
@@ -255,17 +253,17 @@ function step3(error, script) {
   if (error) {
     handleError(error);
   } else {
-    // ...continue after all scripts are loaded (*)
+    // ..tüm komut dosyaları yüklendikten sonra devam et (*)
   }
 };
 ```
 
-See? It does the same, and there's no deep nesting now, because we made every action a separate top-level function.
+Gördünüz mü? Aynı şeyi yapıyor ve şu anda derin bir yuvalama yok, çünkü her eylemi ayrı bir üst düzey işlev haline getirdik.
 
-It works, but the code looks like a torn apart spreadsheet. It's difficult to read, you probably noticed that. One needs to eye-jump between pieces while reading it. That's inconvenient, especially the reader is not familiar with the code and doesn't know where to eye-jump.
+Kod sorunsuz çalışıyor, ancak kod parçalanmış bir elektronik tabloya benziyor. Okuması zor, muhtemelen bunu farkettin. Okurken parçaların arasında göz atmak gerekir. Bu rahatsız edici bir durumdur, özellikle okuyucunun kodu aşina değil ve nereye atlayacağını bilmiyorsa.
 
-Also the functions named `step*` are all of a single use, they are created only to avoid the "pyramid of doom". No one is going to reuse them outside of the action chain. So there's a bit of a namespace cluttering here.
+Ayrıca "step*" adlı fonksiyonlar tek bir kullanımdır, sadece "doom piramidi" ni önlemek için oluşturulurlar. Kimse onları eylem zincirinin dışında yeniden kullanamaz. Yani burada karışık bir isim alanı var.
 
-We'd like to have a something better.
+Daha iyi bir şey isteriz.
 
-Luckily, there are other ways to avoid such pyramids. One of the best ways is to use "promises", described in the next chapter.
+Neyse ki, bu piramitleri önlemek için başka yollar var. En iyi yollardan biri, bir sonraki bölümde anlatılan "promise" kullanmaktır.
