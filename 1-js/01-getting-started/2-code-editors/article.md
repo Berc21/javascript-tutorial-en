@@ -1,56 +1,55 @@
-# Code editors
+# Kod editörleri
 
-A code editor is the place where programmers spend most of their time.
+Bir kod editörü, programcıların zamanlarının çoğunu geçirdikleri yerdir.
 
-There are two archetypes: IDE and lightweight editors. Many people feel comfortable choosing one tool of each type.
+İki tür editor bulunur: IDE ve hafif editörler.. Çoğu kişi birini kullanmayı daha rahat hisseder.
 
 ## IDE
 
-The term [IDE](https://en.wikipedia.org/wiki/Integrated_development_environment) (Integrated Development Environment) means a powerful editor with many features that usually operates on a "whole project". As the name suggests, that's not just an editor, but a full-scale "development environment".
+[IDE](https://en.wikipedia.org/wiki/Integrated_development_environment) (Entegre Geliştirme Ortamı) terimi, genellikle "tüm proje" üzerinde çalışan birçok özelliğe sahip güçlü bir editör anlamına gelir. Adından da anlaşılacağı gibi, bu sadece bir editör değil, tam ölçekli bir "geliştirme ortamı"dır.
 
-An IDE loads the project (can be many files), allows navigation between files, provides autocompletion based on the whole project (not just the open file), integrates with a version management system (like [git](https://git-scm.com/)), a testing environment and other "project-level" stuff.
+Bir IDE, projeyi yükler (birçok dosya olabilir), dosyalar arasında gezinmeye izin verir, tüm projeye (sadece açık dosyaya değil) göre otomatik tamamlama sağlar, bir sürüm yönetim sistemi ile bütünleşir (örneğin [git] (https: // git- scm.com/)), bir test ortamı ve diğer "proje düzeyinde" şeylere olanak sağlar.
 
-If you haven't considered selecting an IDE yet, look at the following variants:
+Henüz bir IDE seçmeyi düşünmediyseniz, aşağıdakilere bir göz atın:
 
-- [WebStorm](http://www.jetbrains.com/webstorm/) for frontend development and other editors of the same company if you need additional languages.
-- Visual Studio is fine if you're a .NET developer, and a free version is available ([Visual Studio Community](https://www.visualstudio.com/vs/community/))
+- [WebStorm](http://www.jetbrains.com/webstorm/) ön arayüz geliştiricileri için ve diğer dillere de ihtiyacınız varsa aynı şirketin diğer diller için IDE'leri de mevcuttur.
+- .NET geliştiricisiyseniz, Visual Studio iyi bir seçenek olabilir, ayrıca ücretsiz versiyonu da mevcut ([Visual Studio Community](https://www.visualstudio.com/vs/community/))
 - [Netbeans](http://netbeans.org/).
 
-All of the IDEs except Visual Studio are available on Windows, MacOs and Linux. Visual Studio doesn't work on Linux.
+Visual Studio dışındaki tüm IDE'ler Windows, MacOs ve Linux'ta mevcuttur. Visual Studio, Linux üzerinde çalışmıyor.
+Çoğu IDE ücretlidir, ancak deneme süresi ile birlikte gelirler. Maliyetleri, kalifiyeli bir geliştiricinin maaşına kıyasla genellikle ihmal edilebilir miktardadırlar, bu yüzden sadece sizin için en iyisini seçin.
 
-Most IDEs are paid, but have a trial period. Their cost is usually negligible compared to a qualified developer's salary, so just choose the best one for you.
+## Hafif editörler
 
-## Lightweight editors
+"Hafif editörler" IDE'ler kadar güçlü değillerdir, fakat daha hızlı, zarif ve basitdirler.
 
-"Lightweight editors" are not as powerful as IDEs, but they're fast, elegant and simple.
+Genellikle bir dosyayı anında açmak ve düzenlemek için kullanılırlar.
 
-They are mainly used to instantly open and edit a file.
+Bir "hafif editör" ile bir "IDE" arasındaki ana fark, bir IDE'nin proje düzeyinde çalıştığıdır, bu yüzden başlangıçta çok daha fazla veri yükler, gerekirse proje yapısını analiz eder. Sadece bir dosyaya ihtiyaç duyarsak, hafif bir editör çok daha hızlıdır.
 
-The main difference between a "lightweight editor" and an "IDE" is that an IDE works on a project-level, so it loads much more data on start, analyzes the project structure if needed and so on. A lightweight editor is much faster if we need only one file.
+Pratikte, hafif editörler, dizin düzeyinde sözdizimi çözümleyicileri ve otomatik tamamlayıcılar dahil olmak üzere birçok eklentiye sahip olabilir, böylece bir hafif editör ve bir IDE arasında sıkı bir sınır yoktur.
 
-In practice, lightweight editors may have a lot of plugins including directory-level syntax analyzers and autocompleters, so there's no strict border between a lightweight editor and an IDE.
+Aşağıdaki seçenekler dikkatinizi hak ediyor:
 
-The following options deserve your attention:
+- [Visual Studio Kodu](https://code.visualstudio.com/) (çapraz platform, ücretsiz).
+- [Atom](https://atom.io/) (çapraz platform, ücretsiz).
+- [Sublime Text](http://www.sublimetext.com) (çapraz platform, kısıtlı yazılım).
+- [Notepad ++](https://notepad-plus-plus.org/) (Windows, ücretsiz).
+- [Vim](http://www.vim.org/) ve [Emacs](https://www.gnu.org/software/emacs/) oldukça havalıdır, nasıl kullanıldığını biliyorsan eğer.
 
-- [Visual Studio Code](https://code.visualstudio.com/) (cross-platform, free).
-- [Atom](https://atom.io/) (cross-platform, free).
-- [Sublime Text](http://www.sublimetext.com) (cross-platform, shareware).
-- [Notepad++](https://notepad-plus-plus.org/) (Windows, free).
-- [Vim](http://www.vim.org/) and [Emacs](https://www.gnu.org/software/emacs/) are also cool, if you know how to use them.
+## Favorilerim
 
-## My favorites
+Yazarın kişisel tercihi, hızlı ve kolay dosya düzenleme için projeler için bir IDE ve hafif bir editöre sahip olmaktır.
 
-The personal preference of the author is to have both an IDE for projects and a lightweight editor for quick and easy file editing.
+Kullandıklarım:
 
-I'm using:
+- JS için [WebStorm](http://www.jetbrains.com/webstorm/) ve projede bir başka dil varsa, yukarıda listelenen diğer Jetbrains tekliflerinden birine geçiyorum.
+- Hafif bir editör olarak -- [Sublime Text](http://www.sublimetext.com) veya [Atom](https://atom.io/).
 
-- [WebStorm](http://www.jetbrains.com/webstorm/) for JS, and if there is one more language in the project, then I switch to one of the other Jetbrains offerings listed above.
-- As a lightweight editor -- [Sublime Text](http://www.sublimetext.com) or [Atom](https://atom.io/).
+## Hadi tartışmaktan kaçınalım
 
-## Let's not argue
+Yukarıdaki listelerdeki editörler, iyi geliştiriciler olduğunu düşündüğüm arkadaşlarımın ya da arkadaşlarımın uzun zamandır kullanmaktam mutlu oldukları IDE ve Hafif editörlerdir.
 
-The editors in the lists above are those that either I or my friends who I consider good developers have been using for a long time and are happy with.
+Büyük dünyamızda başka büyük editörler var. Lütfen en çok sevdiğiniz birini seçin.
 
-There are other great editors in our big world. Please choose the one you like the most.
-
-The choice of an editor, like any other tool, is individual and depends on your projects, habits, personal preferences.
+Bir editörün seçimi, diğer araçlar gibi, bireyseldir ve projelerinize, alışkanlıklarınıza, kişisel tercihlerinize bağlıdır.
